@@ -19,10 +19,16 @@ let PublicacionesErrorCounter = 0;
 let ComentariosErrorCounter = 0;
 
 
+let CantidadUsuarios = 100000;
+let CantidadAmigos = 100000;
+let CantidadPublicaciones = 200000;
+let CantidadComentarios = 1000000;
+
+
 sql.connect(config).then(async pool => {
     console.log('Connected to MSSQL');
 
-    for (let i = 1; i <= 10000; i++) {
+    for (let i = 0; i <= CantidadUsuarios; i++) {
         try {
             const nombre = faker.name.findName();
             const correo_electronico = faker.internet.email();
@@ -44,10 +50,10 @@ sql.connect(config).then(async pool => {
     console.log('Finished populating Usuarios table');
 
 
-    for (let i = 1; i <= 20000; i++) {
+    for (let i = 0; i <= CantidadAmigos; i++) {
         try {
-            const id_usuario = Math.floor(Math.random() * 10000) + 1;
-            const id_amigo = Math.floor(Math.random() * 10000) + 1;
+            const id_usuario = Math.floor(Math.random() * CantidadUsuarios) + 1;
+            const id_amigo = Math.floor(Math.random() * CantidadUsuarios) + 1;
 
             await pool.request()
                 .input('id_usuario', sql.Int, id_usuario)
@@ -61,9 +67,9 @@ sql.connect(config).then(async pool => {
 
     console.log('Finished populating Amigos table');
 
-    for (let i = 1; i <= 2000; i++) {
+    for (let i = 0; i <= CantidadPublicaciones; i++) {
         try {
-            const id_usuario = Math.floor(Math.random() * 10000) + 1;
+            const id_usuario = Math.floor(Math.random() * CantidadUsuarios) + 1;
             const contenido = faker.lorem.paragraph();
             const fecha_publicacion = faker.date.recent();
 
@@ -82,10 +88,10 @@ sql.connect(config).then(async pool => {
 
     console.log('Finished populating Publicaciones table');
 
-    for (let i = 1; i <= 10000; i++) {
+    for (let i = 0; i <= CantidadComentarios; i++) {
         try {
-            const id_publicacion = Math.floor(Math.random() * 2000) + 1;
-            const id_usuario = Math.floor(Math.random() * 10000) + 1;
+            const id_publicacion = Math.floor(Math.random() * CantidadPublicaciones) + 1;
+            const id_usuario = Math.floor(Math.random() * CantidadUsuarios) + 1;
             const contenido = faker.lorem.sentence();
 
             await pool.request()
