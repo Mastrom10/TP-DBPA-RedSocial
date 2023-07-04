@@ -1,0 +1,1509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Plan de Pruebas">
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.comments">Shows how to setup a MongoDB Test</stringProp>
+      <stringProp name="TestPlan.user_define_classpath">C:\Users\nicol\OneDrive\Escritorio\apache-jmeter-5.6\sqljdbc_12.2.0.0_enu\sqljdbc_12.2\enu\mssql-jdbc-12.2.0.jre8.jar</stringProp>
+    </TestPlan>
+    <hashTree>
+      <RandomVariableConfig guiclass="TestBeanGUI" testclass="RandomVariableConfig" testname="Variable aleatoria">
+        <stringProp name="maximumValue">100000</stringProp>
+        <stringProp name="minimumValue">1</stringProp>
+        <stringProp name="outputFormat"></stringProp>
+        <boolProp name="perThread">false</boolProp>
+        <stringProp name="randomSeed"></stringProp>
+        <stringProp name="variableName">idUsuarioAleatorio</stringProp>
+      </RandomVariableConfig>
+      <hashTree/>
+      <JDBCDataSource guiclass="TestBeanGUI" testclass="JDBCDataSource" testname="Configuración de la Conexión JDBC">
+        <boolProp name="autocommit">true</boolProp>
+        <stringProp name="checkQuery"></stringProp>
+        <stringProp name="connectionAge">5000</stringProp>
+        <stringProp name="connectionProperties"></stringProp>
+        <stringProp name="dataSource">Test_TPRedSocial</stringProp>
+        <stringProp name="dbUrl">jdbc:sqlserver://localhost;DatabaseName=TPRedSocial;encrypt=false;</stringProp>
+        <stringProp name="driver">com.microsoft.sqlserver.jdbc.SQLServerDriver</stringProp>
+        <stringProp name="initQuery"></stringProp>
+        <boolProp name="keepAlive">true</boolProp>
+        <stringProp name="password">admin</stringProp>
+        <stringProp name="poolMax">0</stringProp>
+        <boolProp name="preinit">false</boolProp>
+        <stringProp name="timeout">10000</stringProp>
+        <stringProp name="transactionIsolation">DEFAULT</stringProp>
+        <stringProp name="trimInterval">60000</stringProp>
+        <stringProp name="username">admin</stringProp>
+      </JDBCDataSource>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="0 - MSSQL - C1 - Grupo de Hilos " enabled="false">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">15</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="MSSQL - Consulta Optimizada 1 - Traer el nombre de un usuario">
+          <stringProp name="dataSource">Test_TPRedSocial</stringProp>
+          <stringProp name="query">SELECT U.nombre 
+FROM Usuarios U 
+WHERE U.id_usuario = ${idUsuarioAleatorio};</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="0 - MSSQL - C2 - Grupo de Hilos" enabled="false">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">60</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="MSSQL - Consulta Optimizada 2 - Listar los nombres de todos los amigos de un usuario">
+          <stringProp name="dataSource">Test_TPRedSocial</stringProp>
+          <stringProp name="query">SELECT U.nombre 
+FROM Amigos A 
+JOIN Usuarios U ON A.id_amigo = U.id_usuario
+WHERE A.id_usuario = ${idUsuarioAleatorio};</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="0 - MSSQL - C3 - Grupo de Hilos" enabled="false">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">60</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="MSSQL - Consulta NO Optimizada 3 - Listar las últimas 20 publicaciones de un usuario ordenadas por fecha">
+          <stringProp name="dataSource">Test_TPRedSocial</stringProp>
+          <stringProp name="query">SELECT TOP 20 U.id_usuario, U.nombre, P.fecha_publicacion, P.contenido
+FROM Usuarios U 
+JOIN Publicaciones P ON U.id_usuario = P.id_usuario
+WHERE U.id_usuario = ${idUsuarioAleatorio}
+ORDER BY P.fecha_publicacion DESC;
+</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="0 - MSSQL - C4 - Grupo de Hilos" enabled="false">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">60</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="MSSQL - Consulta NO optimizada 4 - Recuperar las últimas 20 publicaciones de un usuario junto con los comentarios y los nombres de los comentaristas">
+          <stringProp name="dataSource">Test_TPRedSocial</stringProp>
+          <stringProp name="query">SELECT TOP 20 P.id_publicacion, P.contenido, 
+P.fecha_publicacion AS &apos;Contenido de la publicacion&apos;, 
+C.contenido AS &apos;Contenido del comentario&apos;, 
+U.nombre AS &apos;Nombre del comentarista&apos;
+FROM Publicaciones P
+LEFT JOIN Comentarios C ON P.id_publicacion = C.id_publicacion
+LEFT JOIN Usuarios U ON C.id_usuario = U.id_usuario
+WHERE P.id_usuario = ${idUsuarioAleatorio}
+ORDER BY P.fecha_publicacion DESC;</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="0 - MSSQL - C5 - Grupo de Hilos" enabled="false">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">15</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="MSSQL - Consulta NO optimizada 5 - Contar el número de comentarios para cada publicación de un usuario">
+          <stringProp name="dataSource">Test_TPRedSocial</stringProp>
+          <stringProp name="query">SELECT P1.id_publicacion, P1.contenido, P1.fecha_publicacion, P2.CantidadComentarios
+FROM (
+    SELECT P.id_publicacion, P.contenido, P.fecha_publicacion
+    FROM Usuarios U
+    JOIN Publicaciones P ON U.id_usuario = P.id_usuario
+    WHERE U.id_usuario = ${idUsuarioAleatorio}
+) P1
+JOIN (
+    SELECT P.id_publicacion, COUNT(C.id_comentario) AS &apos;CantidadComentarios&apos;
+    FROM Publicaciones P
+    LEFT JOIN Comentarios C ON P.id_publicacion = C.id_publicacion
+    GROUP BY P.id_publicacion
+) P2 ON P1.id_publicacion = P2.id_publicacion
+ORDER BY P1.fecha_publicacion DESC;</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="0 - MONGO - C1 - Grupo de Hilos" enabled="false">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">50</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">60</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Controlador Only Once"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Conexion">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import java.util.Arrays;
+
+try {
+
+    MongoClient mongoClient = MongoClients.create(&quot;mongodb://localhost:27017&quot;);
+    MongoDatabase database = mongoClient.getDatabase(&quot;TpRedSocialMongo&quot;);
+    MongoCollection collection = database.getCollection(&quot;Usuarios&quot;);
+    vars.putObject(&quot;collection&quot;, collection);
+    
+    return &quot;Connected to &quot; + vars.get(&quot;Usuarios&quot;);
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="MONGO - Consulta Optimizada 1 - Traer el nombre de un usuario">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${idUsuarioAleatorio}</stringProp>
+          <stringProp name="script">import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.*;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+
+try {
+    MongoCollection&lt;Document&gt; collection = vars.getObject(&quot;collection&quot;);
+   
+	Document query = new Document(&quot;_id&quot;, args[0]);
+    	Document result = collection.find(query).first();
+
+    return result.get(&quot;nombre&quot;)
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="0 - MONGO - C2 - Grupo de Hilos" enabled="false">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">50</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">60</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Controlador Only Once"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Conexion">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import java.util.Arrays;
+
+try {
+
+    MongoClient mongoClient = MongoClients.create(&quot;mongodb://localhost:27017&quot;);
+    MongoDatabase database = mongoClient.getDatabase(&quot;TpRedSocialMongo&quot;);
+    MongoCollection collection = database.getCollection(&quot;Usuarios&quot;);
+    vars.putObject(&quot;collection&quot;, collection);
+    
+    return &quot;Connected to &quot; + vars.get(&quot;Usuarios&quot;);
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="MONGO - Consulta Optimizada 2 - Listar los nombres de todos los amigos de un usuario ">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${idUsuarioAleatorio}</stringProp>
+          <stringProp name="script">import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.*;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+import java.util.ArrayList;
+import java.util.List;
+
+try {
+    MongoCollection&lt;Document&gt; collection = vars.getObject(&quot;collection&quot;);
+
+    // crea la consulta para obtener el usuario
+    Document query = new Document(&quot;_id&quot;, args[0]);
+    Document result = collection.find(query).first();
+
+    // extrae los IDs de los amigos
+    List&lt;String&gt; idAmigos = (List&lt;String&gt;) result.get(&quot;amigos&quot;);
+    
+    List&lt;String&gt; nombresAmigos = new ArrayList&lt;&gt;();
+
+    // verifica si idAmigos tiene contenido antes de realizar la consulta
+    if (idAmigos != null &amp;&amp; !idAmigos.isEmpty()) {
+
+        // crea la consulta para obtener los amigos
+        Document queryAmigos = new Document(&quot;_id&quot;, new Document(&quot;\$in&quot;, idAmigos));
+        List&lt;Document&gt; docsAmigos = collection.find(queryAmigos).into(new ArrayList&lt;&gt;());
+
+        // extrae los nombres de los amigos
+        for (Document doc : docsAmigos) {
+            nombresAmigos.add(doc.getString(&quot;nombre&quot;));
+        }
+    } else {
+	return &quot;&quot;;
+    	}
+
+    // une los nombres de los amigos en una cadena
+    String output = String.join(&quot;\n&quot;, nombresAmigos);
+    return output;
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="0 - MONGO - C3 - Grupo de Hilos" enabled="false">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">50</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">60</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Controlador Only Once"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Conexion">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import java.util.Arrays;
+
+try {
+
+    MongoClient mongoClient = MongoClients.create(&quot;mongodb://localhost:27017&quot;);
+    MongoDatabase database = mongoClient.getDatabase(&quot;TpRedSocialMongo&quot;);
+    MongoCollection collection = database.getCollection(&quot;Usuarios&quot;);
+    vars.putObject(&quot;collection&quot;, collection);
+    
+    return &quot;Connected to &quot; + vars.get(&quot;Usuarios&quot;);
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="MONGO - Consulta NO Optimizada 3 - Listar las últimas 20 publicaciones de un usuario ordenadas por fecha">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${idUsuarioAleatorio}</stringProp>
+          <stringProp name="script">import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Sorts.*;
+import org.bson.Document;
+import java.util.ArrayList;
+import java.util.List;
+
+try {
+    MongoCollection&lt;Document&gt; collection = vars.getObject(&quot;collection&quot;);
+
+    // crea la consulta para obtener las publicaciones del usuario
+    Document query = new Document(&quot;_id&quot;, args[0]);
+
+    // realiza la consulta y obtiene el campo &quot;publicaciones&quot;
+    List&lt;Document&gt; publicaciones = collection.find(query)
+        .projection(fields(include(&quot;publicaciones&quot;)))
+        .first()
+        .getList(&quot;publicaciones&quot;, Document.class);
+
+    // extrae la información necesaria de cada publicación
+    List&lt;String&gt; publicacionesInfo = new ArrayList&lt;&gt;();
+    for (Document publicacion : publicaciones) {
+        log.info(publicacion.toString());
+        publicacionesInfo.add(
+            &quot;id_publicacion: &quot; + publicacion.getString(&quot;_id&quot;) +
+            &quot;, contenido: &quot; + publicacion.getString(&quot;contenido&quot;) +
+            &quot;, fecha publicacion: &quot; + publicacion.getString(&quot;fecha_publicacion&quot;)
+        );
+    }
+
+    // une las publicaciones en una cadena
+    String output = String.join(&quot;\n&quot;, publicacionesInfo);
+    return output;
+    
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="0 - MONGO - C4 - Grupo de Hilos" enabled="false">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">50</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">60</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Controlador Only Once"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Conexion">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import java.util.Arrays;
+
+try {
+
+    MongoClient mongoClient = MongoClients.create(&quot;mongodb://localhost:27017&quot;);
+    MongoDatabase database = mongoClient.getDatabase(&quot;TpRedSocialMongo&quot;);
+    MongoCollection collection = database.getCollection(&quot;Usuarios&quot;);
+    vars.putObject(&quot;collection&quot;, collection);
+    
+    return &quot;Connected to &quot; + vars.get(&quot;Usuarios&quot;);
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="MONGO - Consulta NO optimizada 4 - Recuperar las últimas 20 publicaciones de un usuario junto con los comentarios y los nombres de los comentaristas">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${idUsuarioAleatorio}</stringProp>
+          <stringProp name="script">import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Sorts.*;
+import org.bson.Document;
+import java.util.ArrayList;
+import java.util.List;
+
+try {
+    MongoCollection&lt;Document&gt; collection = vars.getObject(&quot;collection&quot;);
+
+    // crea la consulta para obtener las publicaciones del usuario
+    Document query = new Document(&quot;_id&quot;, args[0]);
+
+    // realiza la consulta y obtiene el campo &quot;publicaciones&quot;
+    Document result = collection.find(query)
+        .projection(fields(slice(&quot;publicaciones&quot;, -20))) // obtiene las últimas 20 publicaciones
+        .first();
+    
+    List&lt;Document&gt; publicaciones = result.getList(&quot;publicaciones&quot;, Document.class);
+
+    // extrae la información necesaria de cada publicación
+    List&lt;String&gt; publicacionesInfo = new ArrayList&lt;&gt;();
+    for (Document publicacion : publicaciones) {
+        List&lt;Document&gt; comentarios = publicacion.getList(&quot;comentarios&quot;, Document.class);
+        List&lt;String&gt; comentariosInfo = new ArrayList&lt;&gt;();
+        for (Document comentario : comentarios) {
+            comentariosInfo.add(
+                &quot;\n    id_comentario: &quot; + comentario.getString(&quot;_id&quot;) +
+                &quot;, id_usuario: &quot; + comentario.getString(&quot;id_usuario&quot;) +
+                &quot;, contenido_comentario: &quot; + comentario.getString(&quot;contenido&quot;)
+            );
+        }
+        publicacionesInfo.add(
+            &quot;\nid_publicacion: &quot; + publicacion.getString(&quot;_id&quot;) +
+            &quot;, contenido: &quot; + publicacion.getString(&quot;contenido&quot;) +
+            &quot;, fecha_publicacion: &quot; + publicacion.getString(&quot;fecha_publicacion&quot;) +
+            &quot;, comentarios: &quot; + String.join(&quot;, &quot;, comentariosInfo)
+        );
+    }
+
+    // une las publicaciones en una cadena
+    String output = String.join(&quot;\n&quot;, publicacionesInfo);
+    return output;
+    
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="0 - MONGO - C5 - Grupo de Hilos" enabled="false">
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">50</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">10</stringProp>
+        <boolProp name="ThreadGroup.scheduler">true</boolProp>
+        <stringProp name="ThreadGroup.duration">60</stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Controlador Only Once"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Conexion">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import java.util.Arrays;
+
+try {
+
+    MongoClient mongoClient = MongoClients.create(&quot;mongodb://localhost:27017&quot;);
+    MongoDatabase database = mongoClient.getDatabase(&quot;TpRedSocialMongo&quot;);
+    MongoCollection collection = database.getCollection(&quot;Usuarios&quot;);
+    vars.putObject(&quot;collection&quot;, collection);
+    
+    return &quot;Connected to &quot; + vars.get(&quot;Usuarios&quot;);
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="MONGO - Consulta NO optimizada 5 - Contar el número de comentarios para cada publicación de un usuario (full)" enabled="false">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${idUsuarioAleatorio}</stringProp>
+          <stringProp name="script">import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Sorts.*;
+import org.bson.Document;
+import java.util.ArrayList;
+import java.util.List;
+
+try {
+     MongoCollection&lt;Document&gt; collection = vars.getObject(&quot;collection&quot;);
+
+    // crea la consulta para obtener las publicaciones del usuario
+    Document query = new Document(&quot;_id&quot;, args[0]);
+
+    // realiza la consulta y obtiene el campo &quot;publicaciones&quot;
+    Document result = collection.find(query)
+        .projection(fields(include(&quot;publicaciones&quot;)))
+        .first();
+    
+    List&lt;Document&gt; publicaciones = result.getList(&quot;publicaciones&quot;, Document.class);
+
+    // extrae la información necesaria de cada publicación
+    List&lt;String&gt; publicacionesInfo = new ArrayList&lt;&gt;();
+    for (Document publicacion : publicaciones) {
+        List&lt;Document&gt; comentarios = publicacion.getList(&quot;comentarios&quot;, Document.class);
+
+        publicacionesInfo.add(
+            &quot;\nid_publicacion: &quot; + publicacion.getString(&quot;_id&quot;) +
+            &quot;, contenido: &quot; + publicacion.getString(&quot;contenido&quot;) +
+            &quot;, fecha_publicacion: &quot; + publicacion.getString(&quot;fecha_publicacion&quot;) +
+            &quot;, Cantidad de comentarios: &quot; + comentarios.size()
+        );
+    }
+
+    // une las publicaciones en una cadena
+    String output = String.join(&quot;\n&quot;, publicacionesInfo);
+    return output;
+    
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="MONGO - Consulta NO optimizada 5 - Contar el número de comentarios para cada publicación de un usuario">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${idUsuarioAleatorio}</stringProp>
+          <stringProp name="script">import com.mongodb.client.MongoCollection;
+import com.mongodb.client.AggregateIterable;
+import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Sorts.*;
+import org.bson.Document;
+import java.util.ArrayList;
+import java.util.List;
+
+try {
+     MongoCollection&lt;Document&gt; collection = vars.getObject(&quot;collection&quot;);
+
+    // Create the pipeline for the aggregate function
+    List&lt;Document&gt; pipeline = Arrays.asList(
+        new Document(&quot;\$match&quot;, new Document(&quot;_id&quot;, args[0])),
+        new Document(&quot;\$unwind&quot;, &quot;\$publicaciones&quot;),
+        new Document(&quot;\$project&quot;, new Document(&quot;_id&quot;, &quot;\$publicaciones._id&quot;)
+                .append(&quot;contenido&quot;, &quot;\$publicaciones.contenido&quot;)
+                .append(&quot;fecha_publicacion&quot;, &quot;\$publicaciones.fecha_publicacion&quot;)
+                .append(&quot;numComentarios&quot;, new Document(&quot;\$size&quot;, &quot;\$publicaciones.comentarios&quot;))
+        )
+    );
+
+    // Execute the aggregation
+    AggregateIterable&lt;Document&gt; result = collection.aggregate(pipeline);
+
+    // Process the results
+    StringBuilder output = new StringBuilder();
+    for (Document doc : result) {
+        output.append(&quot;ID de publicación: &quot;).append(doc.getString(&quot;_id&quot;))
+              .append(&quot;, contenido: &quot;).append(doc.getString(&quot;contenido&quot;))
+              .append(&quot;, fecha de publicación: &quot;).append(doc.getString(&quot;fecha_publicacion&quot;))
+              .append(&quot;, cantidad de comentarios: &quot;).append(doc.getInteger(&quot;numComentarios&quot;))
+              .append(&quot;\n&quot;);
+    }
+
+    return output.toString();
+    
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="MSSQL - C1 - Stepping Thread Group" enabled="false">
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="Threads initial delay">0</stringProp>
+        <stringProp name="Start users count">25</stringProp>
+        <stringProp name="Start users count burst">0</stringProp>
+        <stringProp name="Start users period">40</stringProp>
+        <stringProp name="Stop users count">10</stringProp>
+        <stringProp name="Stop users period">1</stringProp>
+        <stringProp name="flighttime">40</stringProp>
+        <stringProp name="rampUp">5</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+      </kg.apc.jmeter.threads.SteppingThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="MSSQL - Consulta Optimizada 1 - Traer el nombre de un usuario">
+          <stringProp name="dataSource">Test_TPRedSocial</stringProp>
+          <stringProp name="query">SELECT U.nombre 
+FROM Usuarios U 
+WHERE U.id_usuario = ${idUsuarioAleatorio};</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree/>
+      </hashTree>
+      <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="MSSQL - C2 - Stepping Thread Group" enabled="false">
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="Threads initial delay">0</stringProp>
+        <stringProp name="Start users count">25</stringProp>
+        <stringProp name="Start users count burst">0</stringProp>
+        <stringProp name="Start users period">40</stringProp>
+        <stringProp name="Stop users count">10</stringProp>
+        <stringProp name="Stop users period">1</stringProp>
+        <stringProp name="flighttime">40</stringProp>
+        <stringProp name="rampUp">5</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+      </kg.apc.jmeter.threads.SteppingThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="MSSQL - Consulta Optimizada 2 - Listar los nombres de todos los amigos de un usuario">
+          <stringProp name="dataSource">Test_TPRedSocial</stringProp>
+          <stringProp name="query">SELECT U.nombre 
+FROM Amigos A 
+JOIN Usuarios U ON A.id_amigo = U.id_usuario
+WHERE A.id_usuario = ${idUsuarioAleatorio};</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree/>
+      </hashTree>
+      <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="MSSQL - C3 - Stepping Thread Group" enabled="false">
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="Threads initial delay">0</stringProp>
+        <stringProp name="Start users count">25</stringProp>
+        <stringProp name="Start users count burst">0</stringProp>
+        <stringProp name="Start users period">40</stringProp>
+        <stringProp name="Stop users count">10</stringProp>
+        <stringProp name="Stop users period">1</stringProp>
+        <stringProp name="flighttime">40</stringProp>
+        <stringProp name="rampUp">5</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+      </kg.apc.jmeter.threads.SteppingThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="MSSQL - Consulta NO Optimizada 3 - Listar las últimas 20 publicaciones de un usuario ordenadas por fecha">
+          <stringProp name="dataSource">Test_TPRedSocial</stringProp>
+          <stringProp name="query">SELECT TOP 20 U.id_usuario, U.nombre, P.fecha_publicacion, P.contenido
+FROM Usuarios U 
+JOIN Publicaciones P ON U.id_usuario = P.id_usuario
+WHERE U.id_usuario = ${idUsuarioAleatorio}
+ORDER BY P.fecha_publicacion DESC;
+</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree/>
+      </hashTree>
+      <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="MSSQL - C4 - Stepping Thread Group" enabled="false">
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="Threads initial delay">0</stringProp>
+        <stringProp name="Start users count">25</stringProp>
+        <stringProp name="Start users count burst">0</stringProp>
+        <stringProp name="Start users period">40</stringProp>
+        <stringProp name="Stop users count">10</stringProp>
+        <stringProp name="Stop users period">1</stringProp>
+        <stringProp name="flighttime">40</stringProp>
+        <stringProp name="rampUp">5</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+      </kg.apc.jmeter.threads.SteppingThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="MSSQL - Consulta NO optimizada 4 - Recuperar las últimas 20 publicaciones de un usuario junto con los comentarios y los nombres de los comentaristas">
+          <stringProp name="dataSource">Test_TPRedSocial</stringProp>
+          <stringProp name="query">SELECT TOP 20 P.id_publicacion, P.contenido, 
+P.fecha_publicacion AS &apos;Contenido de la publicacion&apos;, 
+C.contenido AS &apos;Contenido del comentario&apos;, 
+U.nombre AS &apos;Nombre del comentarista&apos;
+FROM Publicaciones P
+LEFT JOIN Comentarios C ON P.id_publicacion = C.id_publicacion
+LEFT JOIN Usuarios U ON C.id_usuario = U.id_usuario
+WHERE P.id_usuario = ${idUsuarioAleatorio}
+ORDER BY P.fecha_publicacion DESC;</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree/>
+      </hashTree>
+      <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="MSSQL - C5 - Stepping Thread Group" enabled="false">
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="Threads initial delay">0</stringProp>
+        <stringProp name="Start users count">25</stringProp>
+        <stringProp name="Start users count burst">0</stringProp>
+        <stringProp name="Start users period">40</stringProp>
+        <stringProp name="Stop users count">10</stringProp>
+        <stringProp name="Stop users period">1</stringProp>
+        <stringProp name="flighttime">40</stringProp>
+        <stringProp name="rampUp">5</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+      </kg.apc.jmeter.threads.SteppingThreadGroup>
+      <hashTree>
+        <JDBCSampler guiclass="TestBeanGUI" testclass="JDBCSampler" testname="MSSQL - Consulta NO optimizada 5 - Contar el número de comentarios para cada publicación de un usuario">
+          <stringProp name="dataSource">Test_TPRedSocial</stringProp>
+          <stringProp name="query">SELECT P1.id_publicacion, P1.contenido, P1.fecha_publicacion, P2.CantidadComentarios
+FROM (
+    SELECT P.id_publicacion, P.contenido, P.fecha_publicacion
+    FROM Usuarios U
+    JOIN Publicaciones P ON U.id_usuario = P.id_usuario
+    WHERE U.id_usuario = ${idUsuarioAleatorio}
+) P1
+JOIN (
+    SELECT P.id_publicacion, COUNT(C.id_comentario) AS &apos;CantidadComentarios&apos;
+    FROM Publicaciones P
+    LEFT JOIN Comentarios C ON P.id_publicacion = C.id_publicacion
+    GROUP BY P.id_publicacion
+) P2 ON P1.id_publicacion = P2.id_publicacion
+ORDER BY P1.fecha_publicacion DESC;</stringProp>
+          <stringProp name="queryArguments"></stringProp>
+          <stringProp name="queryArgumentsTypes"></stringProp>
+          <stringProp name="queryTimeout"></stringProp>
+          <stringProp name="queryType">Select Statement</stringProp>
+          <stringProp name="resultSetHandler">Store as String</stringProp>
+          <stringProp name="resultSetMaxRows"></stringProp>
+          <stringProp name="resultVariable"></stringProp>
+          <stringProp name="variableNames"></stringProp>
+        </JDBCSampler>
+        <hashTree/>
+      </hashTree>
+      <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="MONGO - C1 - Stepping Thread Group">
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="Threads initial delay">0</stringProp>
+        <stringProp name="Start users count">25</stringProp>
+        <stringProp name="Start users count burst">0</stringProp>
+        <stringProp name="Start users period">40</stringProp>
+        <stringProp name="Stop users count">10</stringProp>
+        <stringProp name="Stop users period">1</stringProp>
+        <stringProp name="flighttime">40</stringProp>
+        <stringProp name="rampUp">5</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+      </kg.apc.jmeter.threads.SteppingThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Controlador Only Once"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Conexion">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import java.util.Arrays;
+
+try {
+
+    MongoClient mongoClient = MongoClients.create(&quot;mongodb://localhost:27017&quot;);
+    MongoDatabase database = mongoClient.getDatabase(&quot;TpRedSocialMongo&quot;);
+    MongoCollection collection = database.getCollection(&quot;Usuarios&quot;);
+    vars.putObject(&quot;collection&quot;, collection);
+    
+    return &quot;Connected to &quot; + vars.get(&quot;Usuarios&quot;);
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="MONGO - Consulta Optimizada 1 - Traer el nombre de un usuario">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${idUsuarioAleatorio}</stringProp>
+          <stringProp name="script">import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.*;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+
+try {
+    MongoCollection&lt;Document&gt; collection = vars.getObject(&quot;collection&quot;);
+   
+	Document query = new Document(&quot;_id&quot;, args[0]);
+    	Document result = collection.find(query).first();
+
+    return result.get(&quot;nombre&quot;)
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="MONGO - C2 - Stepping Thread Group">
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="Threads initial delay">0</stringProp>
+        <stringProp name="Start users count">25</stringProp>
+        <stringProp name="Start users count burst">0</stringProp>
+        <stringProp name="Start users period">40</stringProp>
+        <stringProp name="Stop users count">10</stringProp>
+        <stringProp name="Stop users period">1</stringProp>
+        <stringProp name="flighttime">40</stringProp>
+        <stringProp name="rampUp">5</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+      </kg.apc.jmeter.threads.SteppingThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Controlador Only Once"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Conexion">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import java.util.Arrays;
+
+try {
+
+    MongoClient mongoClient = MongoClients.create(&quot;mongodb://localhost:27017&quot;);
+    MongoDatabase database = mongoClient.getDatabase(&quot;TpRedSocialMongo&quot;);
+    MongoCollection collection = database.getCollection(&quot;Usuarios&quot;);
+    vars.putObject(&quot;collection&quot;, collection);
+    
+    return &quot;Connected to &quot; + vars.get(&quot;Usuarios&quot;);
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="MONGO - Consulta Optimizada 2 - Listar los nombres de todos los amigos de un usuario ">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${idUsuarioAleatorio}</stringProp>
+          <stringProp name="script">import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.*;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+import java.util.ArrayList;
+import java.util.List;
+
+try {
+    MongoCollection&lt;Document&gt; collection = vars.getObject(&quot;collection&quot;);
+
+    // crea la consulta para obtener el usuario
+    Document query = new Document(&quot;_id&quot;, args[0]);
+    Document result = collection.find(query).first();
+
+    // extrae los IDs de los amigos
+    List&lt;String&gt; idAmigos = (List&lt;String&gt;) result.get(&quot;amigos&quot;);
+    
+    List&lt;String&gt; nombresAmigos = new ArrayList&lt;&gt;();
+
+    // verifica si idAmigos tiene contenido antes de realizar la consulta
+    if (idAmigos != null &amp;&amp; !idAmigos.isEmpty()) {
+
+        // crea la consulta para obtener los amigos
+        Document queryAmigos = new Document(&quot;_id&quot;, new Document(&quot;\$in&quot;, idAmigos));
+        List&lt;Document&gt; docsAmigos = collection.find(queryAmigos).into(new ArrayList&lt;&gt;());
+
+        // extrae los nombres de los amigos
+        for (Document doc : docsAmigos) {
+            nombresAmigos.add(doc.getString(&quot;nombre&quot;));
+        }
+    } else {
+	return &quot;&quot;;
+    	}
+
+    // une los nombres de los amigos en una cadena
+    String output = String.join(&quot;\n&quot;, nombresAmigos);
+    return output;
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="MONGO - C3 - Stepping Thread Group">
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="Threads initial delay">0</stringProp>
+        <stringProp name="Start users count">25</stringProp>
+        <stringProp name="Start users count burst">0</stringProp>
+        <stringProp name="Start users period">40</stringProp>
+        <stringProp name="Stop users count">10</stringProp>
+        <stringProp name="Stop users period">1</stringProp>
+        <stringProp name="flighttime">40</stringProp>
+        <stringProp name="rampUp">5</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+      </kg.apc.jmeter.threads.SteppingThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Controlador Only Once"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Conexion">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import java.util.Arrays;
+
+try {
+
+    MongoClient mongoClient = MongoClients.create(&quot;mongodb://localhost:27017&quot;);
+    MongoDatabase database = mongoClient.getDatabase(&quot;TpRedSocialMongo&quot;);
+    MongoCollection collection = database.getCollection(&quot;Usuarios&quot;);
+    vars.putObject(&quot;collection&quot;, collection);
+    
+    return &quot;Connected to &quot; + vars.get(&quot;Usuarios&quot;);
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="MONGO - Consulta NO Optimizada 3 - Listar las últimas 20 publicaciones de un usuario ordenadas por fecha">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${idUsuarioAleatorio}</stringProp>
+          <stringProp name="script">import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Sorts.*;
+import org.bson.Document;
+import java.util.ArrayList;
+import java.util.List;
+
+try {
+    MongoCollection&lt;Document&gt; collection = vars.getObject(&quot;collection&quot;);
+
+    // crea la consulta para obtener las publicaciones del usuario
+    Document query = new Document(&quot;_id&quot;, args[0]);
+
+    // realiza la consulta y obtiene el campo &quot;publicaciones&quot;
+    List&lt;Document&gt; publicaciones = collection.find(query)
+        .projection(fields(include(&quot;publicaciones&quot;)))
+        .first()
+        .getList(&quot;publicaciones&quot;, Document.class);
+
+    // extrae la información necesaria de cada publicación
+    List&lt;String&gt; publicacionesInfo = new ArrayList&lt;&gt;();
+    for (Document publicacion : publicaciones) {
+        log.info(publicacion.toString());
+        publicacionesInfo.add(
+            &quot;id_publicacion: &quot; + publicacion.getString(&quot;_id&quot;) +
+            &quot;, contenido: &quot; + publicacion.getString(&quot;contenido&quot;) +
+            &quot;, fecha publicacion: &quot; + publicacion.getString(&quot;fecha_publicacion&quot;)
+        );
+    }
+
+    // une las publicaciones en una cadena
+    String output = String.join(&quot;\n&quot;, publicacionesInfo);
+    return output;
+    
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="MONGO - C4 - Stepping Thread Group">
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="Threads initial delay">0</stringProp>
+        <stringProp name="Start users count">25</stringProp>
+        <stringProp name="Start users count burst">0</stringProp>
+        <stringProp name="Start users period">40</stringProp>
+        <stringProp name="Stop users count">10</stringProp>
+        <stringProp name="Stop users period">1</stringProp>
+        <stringProp name="flighttime">40</stringProp>
+        <stringProp name="rampUp">5</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+      </kg.apc.jmeter.threads.SteppingThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Controlador Only Once"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Conexion">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import java.util.Arrays;
+
+try {
+
+    MongoClient mongoClient = MongoClients.create(&quot;mongodb://localhost:27017&quot;);
+    MongoDatabase database = mongoClient.getDatabase(&quot;TpRedSocialMongo&quot;);
+    MongoCollection collection = database.getCollection(&quot;Usuarios&quot;);
+    vars.putObject(&quot;collection&quot;, collection);
+    
+    return &quot;Connected to &quot; + vars.get(&quot;Usuarios&quot;);
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="MONGO - Consulta NO optimizada 4 - Recuperar las últimas 20 publicaciones de un usuario junto con los comentarios y los nombres de los comentaristas">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${idUsuarioAleatorio}</stringProp>
+          <stringProp name="script">import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Sorts.*;
+import org.bson.Document;
+import java.util.ArrayList;
+import java.util.List;
+
+try {
+    MongoCollection&lt;Document&gt; collection = vars.getObject(&quot;collection&quot;);
+
+    // crea la consulta para obtener las publicaciones del usuario
+    Document query = new Document(&quot;_id&quot;, args[0]);
+
+    // realiza la consulta y obtiene el campo &quot;publicaciones&quot;
+    Document result = collection.find(query)
+        .projection(fields(slice(&quot;publicaciones&quot;, -20))) // obtiene las últimas 20 publicaciones
+        .first();
+    
+    List&lt;Document&gt; publicaciones = result.getList(&quot;publicaciones&quot;, Document.class);
+
+    // extrae la información necesaria de cada publicación
+    List&lt;String&gt; publicacionesInfo = new ArrayList&lt;&gt;();
+    for (Document publicacion : publicaciones) {
+        List&lt;Document&gt; comentarios = publicacion.getList(&quot;comentarios&quot;, Document.class);
+        List&lt;String&gt; comentariosInfo = new ArrayList&lt;&gt;();
+        for (Document comentario : comentarios) {
+            comentariosInfo.add(
+                &quot;\n    id_comentario: &quot; + comentario.getString(&quot;_id&quot;) +
+                &quot;, id_usuario: &quot; + comentario.getString(&quot;id_usuario&quot;) +
+                &quot;, contenido_comentario: &quot; + comentario.getString(&quot;contenido&quot;)
+            );
+        }
+        publicacionesInfo.add(
+            &quot;\nid_publicacion: &quot; + publicacion.getString(&quot;_id&quot;) +
+            &quot;, contenido: &quot; + publicacion.getString(&quot;contenido&quot;) +
+            &quot;, fecha_publicacion: &quot; + publicacion.getString(&quot;fecha_publicacion&quot;) +
+            &quot;, comentarios: &quot; + String.join(&quot;, &quot;, comentariosInfo)
+        );
+    }
+
+    // une las publicaciones en una cadena
+    String output = String.join(&quot;\n&quot;, publicacionesInfo);
+    return output;
+    
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <kg.apc.jmeter.threads.SteppingThreadGroup guiclass="kg.apc.jmeter.threads.SteppingThreadGroupGui" testclass="kg.apc.jmeter.threads.SteppingThreadGroup" testname="MONGO - C5 - Stepping Thread Group">
+        <stringProp name="ThreadGroup.num_threads">100</stringProp>
+        <stringProp name="Threads initial delay">0</stringProp>
+        <stringProp name="Start users count">25</stringProp>
+        <stringProp name="Start users count burst">0</stringProp>
+        <stringProp name="Start users period">40</stringProp>
+        <stringProp name="Stop users count">10</stringProp>
+        <stringProp name="Stop users period">1</stringProp>
+        <stringProp name="flighttime">40</stringProp>
+        <stringProp name="rampUp">5</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle">
+          <intProp name="LoopController.loops">-1</intProp>
+        </elementProp>
+      </kg.apc.jmeter.threads.SteppingThreadGroup>
+      <hashTree>
+        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Controlador Only Once"/>
+        <hashTree>
+          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Conexion">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoClient;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import java.util.Arrays;
+
+try {
+
+    MongoClient mongoClient = MongoClients.create(&quot;mongodb://localhost:27017&quot;);
+    MongoDatabase database = mongoClient.getDatabase(&quot;TpRedSocialMongo&quot;);
+    MongoCollection collection = database.getCollection(&quot;Usuarios&quot;);
+    vars.putObject(&quot;collection&quot;, collection);
+    
+    return &quot;Connected to &quot; + vars.get(&quot;Usuarios&quot;);
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223Sampler>
+          <hashTree/>
+        </hashTree>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="MONGO - Consulta NO optimizada 5 - Contar el número de comentarios para cada publicación de un usuario (full)" enabled="false">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${idUsuarioAleatorio}</stringProp>
+          <stringProp name="script">import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Sorts.*;
+import org.bson.Document;
+import java.util.ArrayList;
+import java.util.List;
+
+try {
+     MongoCollection&lt;Document&gt; collection = vars.getObject(&quot;collection&quot;);
+
+    // crea la consulta para obtener las publicaciones del usuario
+    Document query = new Document(&quot;_id&quot;, args[0]);
+
+    // realiza la consulta y obtiene el campo &quot;publicaciones&quot;
+    Document result = collection.find(query)
+        .projection(fields(include(&quot;publicaciones&quot;)))
+        .first();
+    
+    List&lt;Document&gt; publicaciones = result.getList(&quot;publicaciones&quot;, Document.class);
+
+    // extrae la información necesaria de cada publicación
+    List&lt;String&gt; publicacionesInfo = new ArrayList&lt;&gt;();
+    for (Document publicacion : publicaciones) {
+        List&lt;Document&gt; comentarios = publicacion.getList(&quot;comentarios&quot;, Document.class);
+
+        publicacionesInfo.add(
+            &quot;\nid_publicacion: &quot; + publicacion.getString(&quot;_id&quot;) +
+            &quot;, contenido: &quot; + publicacion.getString(&quot;contenido&quot;) +
+            &quot;, fecha_publicacion: &quot; + publicacion.getString(&quot;fecha_publicacion&quot;) +
+            &quot;, Cantidad de comentarios: &quot; + comentarios.size()
+        );
+    }
+
+    // une las publicaciones en una cadena
+    String output = String.join(&quot;\n&quot;, publicacionesInfo);
+    return output;
+    
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="MONGO - Consulta NO optimizada 5 - Contar el número de comentarios para cada publicación de un usuario">
+          <stringProp name="cacheKey">true</stringProp>
+          <stringProp name="filename"></stringProp>
+          <stringProp name="parameters">${idUsuarioAleatorio}</stringProp>
+          <stringProp name="script">import com.mongodb.client.MongoCollection;
+import com.mongodb.client.AggregateIterable;
+import static com.mongodb.client.model.Projections.*;
+import static com.mongodb.client.model.Sorts.*;
+import org.bson.Document;
+import java.util.ArrayList;
+import java.util.List;
+
+try {
+     MongoCollection&lt;Document&gt; collection = vars.getObject(&quot;collection&quot;);
+
+    // Create the pipeline for the aggregate function
+    List&lt;Document&gt; pipeline = Arrays.asList(
+        new Document(&quot;\$match&quot;, new Document(&quot;_id&quot;, args[0])),
+        new Document(&quot;\$unwind&quot;, &quot;\$publicaciones&quot;),
+        new Document(&quot;\$project&quot;, new Document(&quot;_id&quot;, &quot;\$publicaciones._id&quot;)
+                .append(&quot;contenido&quot;, &quot;\$publicaciones.contenido&quot;)
+                .append(&quot;fecha_publicacion&quot;, &quot;\$publicaciones.fecha_publicacion&quot;)
+                .append(&quot;numComentarios&quot;, new Document(&quot;\$size&quot;, &quot;\$publicaciones.comentarios&quot;))
+        )
+    );
+
+    // Execute the aggregation
+    AggregateIterable&lt;Document&gt; result = collection.aggregate(pipeline);
+
+    // Process the results
+    StringBuilder output = new StringBuilder();
+    for (Document doc : result) {
+        output.append(&quot;ID de publicación: &quot;).append(doc.getString(&quot;_id&quot;))
+              .append(&quot;, contenido: &quot;).append(doc.getString(&quot;contenido&quot;))
+              .append(&quot;, fecha de publicación: &quot;).append(doc.getString(&quot;fecha_publicacion&quot;))
+              .append(&quot;, cantidad de comentarios: &quot;).append(doc.getInteger(&quot;numComentarios&quot;))
+              .append(&quot;\n&quot;);
+    }
+
+    return output.toString();
+    
+} catch (Exception e) {
+    SampleResult.setSuccessful(false);
+    SampleResult.setResponseCode(&quot;500&quot;);
+    SampleResult.setResponseMessage(&quot;Exception: &quot; + e);
+}</stringProp>
+          <stringProp name="scriptLanguage">groovy</stringProp>
+        </JSR223Sampler>
+        <hashTree/>
+      </hashTree>
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Reporte resumen">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="RespTimeGraphVisualizer" testclass="ResultCollector" testname="Response Time Graph" enabled="false">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+        <stringProp name="RespTimeGraph.interval">1000</stringProp>
+        <intProp name="RespTimeGraph.linestrockwidth">3</intProp>
+        <stringProp name="RespTimeGraph.graphsizewidth">950</stringProp>
+        <stringProp name="RespTimeGraph.graphsizeheight">500</stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="Ver Árbol de Resultados" enabled="false">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>true</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <sentBytes>true</sentBytes>
+            <url>true</url>
+            <threadCounts>true</threadCounts>
+            <idleTime>true</idleTime>
+            <connectTime>true</connectTime>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
